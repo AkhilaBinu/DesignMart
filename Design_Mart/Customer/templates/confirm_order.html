@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirm Order</title>
+</head>
+<body>
+  <h1>Confirm Your Order</h1>
+  <p>Are you sure you want to purchase the following item?</p>
+
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Stock</th>
+    </tr>
+    <tr>
+      <td>{{ dress.name }}</td>
+      <td>{{ dress.description }}</td>
+      <td>${{ dress.price }}</td>
+      <td>{{ dress.stock }}</td>
+    </tr>
+  </table>
+
+  <form method="POST" action="{% url 'buy_now' dress.pk %}">
+    {% csrf_token %}
+    <button type="submit">Confirm Order</button>
+    <a href="/Customer/customer_homepage/">Cancel</a>
+  </form>
+</body>
+</html>

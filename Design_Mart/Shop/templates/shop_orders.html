@@ -1,0 +1,91 @@
+{% extends 'shophomepage.html' %}
+{% block content %}
+<!-- shop_orders.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ shop.shop_name }} Orders</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ shop.shop_name }} - Orders</h1>
+
+    
+
+    {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Phone</th>
+                    <th>Customer Address</th>
+                    <th>Dress</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Order Date</th>
+                    <th>Last Updated</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.user.full_name }}</td>
+                        <td>{{ order.user.phone_number }}</td>
+                        <td>{{ order.user.address }}</td>
+                        <td>{{ order.dress.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>${{ order.total_price }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>{{ order.updated_at }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            {% if order.status != 'Delivered' %}
+                                <!-- Only show the update button if the order's status is not "Delivered" -->
+                                <form action="{% url 'update_delivery_status' order.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <select name="status">
+                                        <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="shipped" {% if order.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                                        <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                                    </select>
+                                    <button type="submit">Update</button>
+                                </form>
+                            {% else %}
+                                <!-- Display "Cannot Update" if order status is "Delivered" -->
+                                <span>Cannot Update</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found for this shop.</p>
+    {% endif %}
+    
+    <a href="/Shop/shomepage/">Back to Homepage</a>
+</body>
+</html>
+{% endblock %}

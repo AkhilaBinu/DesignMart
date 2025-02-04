@@ -1,0 +1,56 @@
+{% extends 'customerhomepage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Booking List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Design Booking Details</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Design Image</th>
+                        <th>Design Name</th>
+                        <th>Shop Name</th>
+                        <th>Booking Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td>
+                                {% if booking.design.design_pic %}
+                                    <img src="{{ booking.design.design_pic.url }}" alt="{{ booking.design.name }}" width="100" height="100">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/100x100?text=No+Image" alt="No Image" width="100" height="100">
+                                {% endif %}
+                            </td>
+                            <td>{{ booking.design.name }}</td>
+                            <td>{{ booking.shop.shop_name }}</td>
+                            <td>{{ booking.booking_date }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">No bookings available.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

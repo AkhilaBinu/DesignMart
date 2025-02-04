@@ -1,0 +1,74 @@
+{% extends 'shophomepage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Design Mart</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_design' %}">Add Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'design_list' %}">View Designs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Available Designs</h2>
+
+        <div class="row">
+            {% for design in designs %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% if design.design_pic %}
+                            <img src="{{ design.design_pic.url }}" class="card-img-top" alt="{{ design.name }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/350x200?text=No+Image" class="card-img-top" alt="No image">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ design.name }}</h5>
+                            <p class="card-text"><strong>Description:</strong> {{ design.discription }}</p>
+                            <p class="card-text"><strong>Price:</strong> {{ design.price }}</p>
+                            <p class="card-text"><strong>Customer Name:</strong> {{ design.user.full_name }}</p>
+                            <p class="card-text"><strong>Phone:</strong> {{ design.user.phone_number }}</p>
+                            <p class="text-muted"><em>Added on {{ design.date_added }}</em></p>
+                            
+                            <!-- Buy Here Button for Shops -->
+                            {% if design.status != 'booked' %}
+                                <a href="{% url 'book_design' design.id %}" class="btn btn-primary">Buy Here</a>
+                            {% else %}
+                                <span class="text-success">Booked</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No designs available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

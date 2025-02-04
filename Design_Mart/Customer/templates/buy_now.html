@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy Now - {{ dress.name }}</title>
+  <style>
+    /* Add CSS styles here, similar to the previous examples */
+  </style>
+</head>
+<body>
+  <h1>Buy Now - {{ dress.name }}</h1>
+
+  <div class="container">
+    <img
+      src="{% if dress.image %}{{ dress.image.url }}{% else %}/static/no-image.png{% endif %}"
+      alt="{{ dress.name }}"
+      class="dress-image"
+    />
+    
+    <div class="dress-details">
+      <div class="dress-name">{{ dress.name }}</div>
+      <div class="dress-price">${{ dress.price }}</div>
+      
+      <form method="POST">
+        {% csrf_token %}
+        
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" value="1" min="1" max="{{ dress.stock }}" required />
+        
+        <button type="submit" class="buy-now-btn">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 Your Shop Name. All rights reserved.</footer>
+</body>
+</html>

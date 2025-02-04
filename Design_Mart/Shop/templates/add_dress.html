@@ -1,0 +1,121 @@
+{% extends 'shophomepage.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Dress</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card shadow p-4">
+      <h2 class="text-center mb-4">Add a New Dress</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.name.label_tag }}
+          {{ form.name }}
+        </div>
+        <div class="mb-3">
+          {{ form.description.label_tag }}
+          {{ form.description }}
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            {{ form.price.label_tag }}
+            {{ form.price }}
+          </div>
+          <div class="col-md-4 mb-3">
+            {{ form.stock.label_tag }}
+            {{ form.stock }}
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              {{ form.category.label_tag }}
+              {{ form.category }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            {{ form.size.label_tag }}
+            {{ form.size }}
+          </div>
+          <div class="col-md-4 mb-3">
+            {{ form.color.label_tag }}
+            {{ form.color }}
+          </div>
+          <div class="col-md-4 mb-3">
+            {{ form.material.label_tag }}
+            {{ form.material }}
+          </div>
+        </div>
+        <div class="mb-3">
+          {{ form.image.label_tag }}
+          {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Dress</button>
+      </form>
+    </div>
+
+    <h2 class="text-center mt-5">All Dresses</h2>
+    {% if all_dresses %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Material</th>
+            <th>Image</th>
+            <th>Added At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dress in all_dresses %}
+          <tr>
+            <td>{{ dress.name }}</td>
+            <td>{{ dress.description }}</td>
+            <td>${{ dress.price }}</td>
+            <td>{{ dress.stock }}</td>
+            <td>{{ dress.category }}</td>
+            <td>{{ dress.get_size_display }}</td>
+            <td>{{ dress.color }}</td>
+            <td>{{ dress.material }}</td>
+            <td class="text-center">
+              {% if dress.image %}
+              <img src="{{ dress.image.url }}" alt="Dress Image" class="img-thumbnail" style="max-width: 100px;">
+              {% else %}
+              <span class="text-muted">No image</span>
+              {% endif %}
+            </td>
+            <td>{{ dress.created_at }}</td>
+            <td>
+              <a href="{% url 'edit_dress' dress.id %}" class="btn btn-warning btn-sm">Edit</a>
+              <a href="{% url 'delete_dress' dress.id %}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('Are you sure you want to delete this dress?');">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No dresses available.</p>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

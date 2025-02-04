@@ -1,0 +1,140 @@
+{% extends 'customerhomepage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available Dresses</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dress-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .dress-card:hover {
+      transform: scale(1.03);
+    }
+
+    .dress-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .dress-details {
+      padding: 15px;
+    }
+
+    .dress-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .dress-price {
+      font-size: 16px;
+      color: #28a745;
+      margin-bottom: 10px;
+    }
+
+    .dress-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .view-btn {
+      display: inline-block;
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .view-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .buy-now-btn {
+      display: block;
+      text-decoration: none;
+      background-color: #ff5722;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-align: center;
+      margin: 10px 0; /* Add space above and below the button */
+      transition: background-color 0.3s;
+    }
+
+    .buy-now-btn:hover {
+      background-color: #e64a19;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Dresses</h1>
+
+  <div class="container">
+    {% for dress in dresses %}
+    <div class="dress-card">
+        <img
+        src="{% if dress.image %}{{ dress.image.url }}{% else %}/static/no-image.png{% endif %}"
+        alt="{{ dress.name }}"
+        class="dress-image"
+      />
+      <div class="dress-details">
+        <div class="dress-name">{{ dress.name }}</div>
+        <div class="dress-price">${{ dress.price }}</div>
+        <div class="dress-description">{{ dress.description|truncatechars:50 }}</div>
+        <a href="{% url 'dress_detail' dress.id %}" class="view-btn">View Details</a>
+        <a href="{% url 'buy_now' dress.id %}" class="buy-now-btn">Buy Now</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <footer>&copy; 2025 Your Shop Name. All rights reserved.</footer>
+</body>
+</html>
+{% endblock %}

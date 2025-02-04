@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Dress</title>
+</head>
+<body>
+  <h1>Edit Dress</h1>
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Dress</button>
+  </form>
+  <a href="{% url 'add_dress' %}">Back to Dress List</a>
+</body>
+</html>

@@ -1,0 +1,149 @@
+{% extends 'customerhomepage.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ dress.name }} - Dress Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .dress-image {
+      width: 100%;
+      max-width: 400px;
+      height: 400px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .dress-details {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .dress-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .dress-price {
+      font-size: 20px;
+      color: #28a745;
+      margin-bottom: 10px;
+    }
+
+    .dress-description {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .dress-info {
+      margin-bottom: 20px;
+    }
+
+    .dress-info span {
+      font-weight: bold;
+    }
+
+    .back-btn {
+      display: inline-block;
+      text-decoration: none;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .buy-now-btn {
+      display: block;
+      text-decoration: none;
+      background-color: #ff5722;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .buy-now-btn:hover {
+      background-color: #e64a19;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ dress.name }} - Dress Details</h1>
+
+  <div class="container">
+    <img
+      src="{% if dress.image %}{{ dress.image.url }}{% else %}/static/no-image.png{% endif %}"
+      alt="{{ dress.name }}"
+      class="dress-image"
+    />
+    
+    <div class="dress-details">
+      <div class="dress-name">{{ dress.name }}</div>
+      <div class="dress-price">${{ dress.price }}</div>
+      <div class="dress-description">{{ dress.description }}</div>
+      
+      <div class="dress-info">
+        <p><span>Category:</span> {{ dress.category }}</p>
+        <p><span>Size:</span> {{ dress.get_size_display }}</p>
+        <p><span>Color:</span> {{ dress.color }}</p>
+        <p><span>Material:</span> {{ dress.material }}</p>
+        <p><span>Stock Available:</span> {{ dress.stock }}</p>
+      </div>
+      
+      <a href="{% url 'customer_view_dresses' %}" class="back-btn">Back to Dresses</a>
+      <a href="{% url 'buy_now' dress.id %}" class="buy-now-btn">Buy Now</a>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 Your Shop Name. All rights reserved.</footer>
+</body>
+</html>
+{% endblock %}
